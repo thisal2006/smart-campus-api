@@ -19,3 +19,14 @@ public class RoomResource {
         return Response.ok(rooms).build();
     }
 }
+
+@POST
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
+public Response createRoom(Room room) {
+    Room newRoom = new Room(room.getName(), room.getBuilding(), room.getFloor());
+    roomStore.put(newRoom.getId(), newRoom);
+    return Response.status(Response.Status.CREATED)
+            .entity(newRoom)
+            .build();
+}
