@@ -30,3 +30,15 @@ public Response createRoom(Room room) {
             .entity(newRoom)
             .build();
 }
+@GET
+@Path("/{roomId}")
+@Produces(MediaType.APPLICATION_JSON)
+public Response getRoomById(@PathParam("roomId") int roomId) {
+    Room room = roomStore.get(roomId);
+    if (room == null) {
+        return Response.status(Response.Status.NOT_FOUND)
+                .entity("{\"error\": \"Room not found with id: " + roomId + "\"}")
+                .build();
+    }
+    return Response.ok(room).build();
+}
