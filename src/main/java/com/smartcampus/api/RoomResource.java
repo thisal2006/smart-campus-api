@@ -61,3 +61,8 @@ public Response deleteRoom(@PathParam("roomId") int roomId) {
     roomStore.remove(roomId);
     return Response.noContent().build();
 }
+
+public static ConcurrentHashMap<Integer, Room> getRoomStore() {
+    return roomStore;
+}
+
