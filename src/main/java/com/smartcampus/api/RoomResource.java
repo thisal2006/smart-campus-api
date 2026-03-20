@@ -49,20 +49,11 @@ public Response getRoomById(@PathParam("roomId") int roomId) {
 public Response deleteRoom(@PathParam("roomId") int roomId) {
     Room room = roomStore.get(roomId);
     if (room == null) {
-        return Response.status(Response.Status.NOT_FOUND)
-                .entity("{\"error\": \"Room not found\"}")
-                .build();
+        throw new javax.ws.rs.NotFoundException("Room not found: " + roomId);
     }
     if (room.hasSensors()) {
-        return Response.status(409)
-                .entity("{\"error\": \"Room has active sensors. Cannot delete.\"}")
-                .build();
+        throw new RoomNotEmptyException(roomId, room.getSensorIds().size());
     }
     roomStore.remove(roomId);
     return Response.noContent().build();
 }
-
-public static ConcurrentHashMap<Integer, Room> getRoomStore() {
-    return roomStore;
-}
-
