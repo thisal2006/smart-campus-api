@@ -30,3 +30,15 @@ public class SensorResource {
                 .build();
     }
 }
+
+@GET
+@Produces(MediaType.APPLICATION_JSON)
+public Response getAllSensors(@QueryParam("type") String type) {
+    List<Sensor> sensors = new ArrayList<>(sensorStore.values());
+    if (type != null && !type.isEmpty()) {
+        sensors = sensors.stream()
+                .filter(s -> s.getType().equalsIgnoreCase(type))
+                .collect(Collectors.toList());
+    }
+    return Response.ok(sensors).build();
+}
