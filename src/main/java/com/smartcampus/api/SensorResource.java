@@ -42,3 +42,4 @@ public Response getAllSensors(@QueryParam("type") String type) {
     }
     return Response.ok(sensors).build();
 }
+
