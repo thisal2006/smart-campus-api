@@ -43,3 +43,6 @@ public Response getAllSensors(@QueryParam("type") String type) {
     return Response.ok(sensors).build();
 }
 
+public static ConcurrentHashMap<Integer, Sensor> getSensorStore() {
+    return sensorStore;
+}
