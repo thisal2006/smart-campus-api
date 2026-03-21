@@ -46,3 +46,9 @@ public Response getAllSensors(@QueryParam("type") String type) {
 public static ConcurrentHashMap<Integer, Sensor> getSensorStore() {
     return sensorStore;
 }
+
+
+@Path("/{sensorId}/readings")
+public SensorReadingResource getSensorReadingResource(@PathParam("sensorId") int sensorId) {
+    return new SensorReadingResource(sensorId);
+}
