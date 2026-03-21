@@ -25,3 +25,18 @@ public class SensorReadingResource {
         return Response.ok(sensor.getReadings()).build();
     }
 }
+
+@POST
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
+public Response addReading(Reading reading) {
+    Sensor sensor = sensorStore.get(sensorId);
+    if (sensor == null) {
+        return Response.status(404).entity("{\"error\": \"Sensor not found\"}").build();
+    }
+    if (!sensor.isAvailable()) {
+        throw new SensorUnavailableException(sensorId, sensor.getStatus());
+    }
+    sensor.addReading(reading);
+    return Response.status(Response.Status.CREATED).entity(reading).build();
+}
