@@ -52,3 +52,29 @@ public static ConcurrentHashMap<Integer, Sensor> getSensorStore() {
 public SensorReadingResource getSensorReadingResource(@PathParam("sensorId") int sensorId) {
     return new SensorReadingResource(sensorId);
 }
+
+@POST
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
+public Response createSensor(Sensor sensor) {
+    if (sensor.getName() == null || sensor.getName().trim().isEmpty()) {
+        return Response.status(Response.Status.BAD_REQUEST)
+                .entity("{\"error\": \"Sensor name cannot be empty\"}")
+                .build();
+    }
+    if (sensor.getType() == null || sensor.getType().trim().isEmpty()) {
+        return Response.status(Response.Status.BAD_REQUEST)
+                .entity("{\"error\": \"Sensor type cannot be empty\"}")
+                .build();
+    }
+    if (!roomStore.containsKey(sensor.getRoomId())) {
+        throw new RoomNotFoundException(sensor.getRoomId());
+    }
+    Sensor newSensor = new Sensor(sensor.getName(), sensor.getType(), sensor.getRoomId());
+    sensorStore.put(newSensor.getId(), newSensor);
+    Room room = roomStore.get(sensor.getRoomId());
+    room.addSensorId(newSensor.getId());
+    return Response.created(URI.create("/api/v1/sensors/" + newSensor.getId()))
+            .entity(newSensor)
+            .build();
+}
