@@ -24,12 +24,18 @@ public class RoomResource {
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public Response createRoom(Room room) {
+    if (room.getName() == null || room.getName().trim().isEmpty()) {
+        return Response.status(Response.Status.BAD_REQUEST)
+                .entity("{\"error\": \"Room name cannot be empty\"}")
+                .build();
+    }
     Room newRoom = new Room(room.getName(), room.getBuilding(), room.getFloor());
     roomStore.put(newRoom.getId(), newRoom);
     return Response.status(Response.Status.CREATED)
             .entity(newRoom)
             .build();
 }
+
 @GET
 @Path("/{roomId}")
 @Produces(MediaType.APPLICATION_JSON)
