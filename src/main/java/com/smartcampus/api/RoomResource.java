@@ -63,3 +63,29 @@ public Response deleteRoom(@PathParam("roomId") int roomId) {
     roomStore.remove(roomId);
     return Response.noContent().build();
 }
+
+@POST
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
+public Response createRoom(Room room) {
+    if (room.getName() == null || room.getName().trim().isEmpty()) {
+        return Response.status(Response.Status.BAD_REQUEST)
+                .entity("{\"error\": \"Room name cannot be empty\"}")
+                .build();
+    }
+    if (room.getBuilding() == null || room.getBuilding().trim().isEmpty()) {
+        return Response.status(Response.Status.BAD_REQUEST)
+                .entity("{\"error\": \"Building name cannot be empty\"}")
+                .build();
+    }
+    if (room.getFloor() < 0) {
+        return Response.status(Response.Status.BAD_REQUEST)
+                .entity("{\"error\": \"Floor number must be 0 or greater\"}")
+                .build();
+    }
+    Room newRoom = new Room(room.getName(), room.getBuilding(), room.getFloor());
+    roomStore.put(newRoom.getId(), newRoom);
+    return Response.status(Response.Status.CREATED)
+            .entity(newRoom)
+            .build();
+}
