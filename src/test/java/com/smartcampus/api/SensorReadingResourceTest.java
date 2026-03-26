@@ -21,4 +21,11 @@ public class SensorReadingResourceTest {
         Response response = null;
         // Assert history is returned
     }
+
+    @Test
+    void testAddReadingToMaintenanceSensor() {
+        // Create sensor with MAINTENANCE status
+        // Try to add reading
+        // Expect 403 Forbidden
+    }
 }
