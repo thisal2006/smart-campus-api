@@ -13,8 +13,10 @@ public class LoggingFilter implements ContainerRequestFilter, ContainerResponseF
     private static final Logger logger = Logger.getLogger(LoggingFilter.class.getName());
 
     @Override
-    public void filter(ContainerRequestContext requestContext) throws IOException {
-        logger.info("REQUEST: " + requestContext.getMethod() + " " + requestContext.getUriInfo().getRequestUri());
+    public void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext) throws IOException {
+        int responseSize = responseContext.getEntity() != null ?
+                responseContext.getEntity().toString().length() : 0;
+        logger.info("RESPONSE: " + responseContext.getStatus() + " | Size: " + responseSize + " bytes");
     }
 
     @Override
