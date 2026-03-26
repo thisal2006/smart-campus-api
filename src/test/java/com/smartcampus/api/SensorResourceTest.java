@@ -33,4 +33,16 @@ public class SensorResourceTest {
         Response response = sensorResource.createSensor(sensor);
         assertEquals(422, response.getStatus());
     }
+    @Test
+    void testFilterSensorsByType() {
+        Response response = sensorResource.getAllSensors("CO2");
+        assertEquals(200, response.getStatus());
+    }
+
+    @Test
+    void testFilterSensorsWithNullType() {
+        Response response = sensorResource.getAllSensors(null);
+        assertEquals(200, response.getStatus());
+    }
+
 }
