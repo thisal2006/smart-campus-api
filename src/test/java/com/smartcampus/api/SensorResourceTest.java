@@ -27,4 +27,10 @@ public class SensorResourceTest {
         Response sensorResponse = sensorResource.createSensor(sensor);
         assertEquals(201, sensorResponse.getStatus());
     }
+    @Test
+    void testCreateSensorWithInvalidRoom() {
+        Sensor sensor = new Sensor("Invalid Sensor", "CO2", 99999);
+        Response response = sensorResource.createSensor(sensor);
+        assertEquals(422, response.getStatus());
+    }
 }
