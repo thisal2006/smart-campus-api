@@ -20,6 +20,7 @@ public class ApplicationConfig extends Application {
         classes.add(com.smartcampus.exception.mappers.SensorUnavailableExceptionMapper.class);
         classes.add(com.smartcampus.exception.mappers.GlobalExceptionMapper.class);
         classes.add(com.smartcampus.filter.LoggingFilter.class);
+        classes.add(com.smartcampus.filter.CORSFilter.class);
         return classes;
     }
 }
