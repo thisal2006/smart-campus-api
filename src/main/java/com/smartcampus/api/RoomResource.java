@@ -89,3 +89,20 @@ public Response createRoom(Room room) {
             .entity(newRoom)
             .build();
 }
+
+@PUT
+@Path("/{roomId}")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
+public Response updateRoom(@PathParam("roomId") int roomId, Room updatedRoom) {
+    Room existingRoom = roomStore.get(roomId);
+    if (existingRoom == null) {
+        return Response.status(Response.Status.NOT_FOUND)
+                .entity("{\"error\": \"Room not found\"}")
+                .build();
+    }
+    if (updatedRoom.getName() != null) existingRoom.setName(updatedRoom.getName());
+    if (updatedRoom.getBuilding() != null) existingRoom.setBuilding(updatedRoom.getBuilding());
+    if (updatedRoom.getFloor() >= 0) existingRoom.setFloor(updatedRoom.getFloor());
+    return Response.ok(existingRoom).build();
+}
