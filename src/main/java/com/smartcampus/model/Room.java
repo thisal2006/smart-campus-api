@@ -36,4 +36,7 @@ public class Room {
     public void setSensorIds(List<Integer> sensorIds) { this.sensorIds = sensorIds; }
     public void addSensorId(int sensorId) { this.sensorIds.add(sensorId); }
     public boolean hasSensors() { return !sensorIds.isEmpty(); }
+    public void removeSensorId(int sensorId) {
+        this.sensorIds.remove(Integer.valueOf(sensorId));
+    }
 }
