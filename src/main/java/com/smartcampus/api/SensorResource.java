@@ -95,3 +95,22 @@ public Response updateSensor(@PathParam("sensorId") int sensorId, Sensor updated
     if (updatedSensor.getStatus() != null) existingSensor.setStatus(updatedSensor.getStatus());
     return Response.ok(existingSensor).build();
 }
+
+@DELETE
+@Path("/{sensorId}")
+@Produces(MediaType.APPLICATION_JSON)
+public Response deleteSensor(@PathParam("sensorId") int sensorId) {
+    Sensor sensor = sensorStore.get(sensorId);
+    if (sensor == null) {
+        return Response.status(Response.Status.NOT_FOUND)
+                .entity("{\"error\": \"Sensor not found\"}")
+                .build();
+    }
+    // Remove sensor from room's sensor list
+    Room room = roomStore.get(sensor.getRoomId());
+    if (room != null) {
+        room.removeSensorId(sensorId);
+    }
+    sensorStore.remove(sensorId);
+    return Response.noContent().build();
+}
