@@ -78,3 +78,20 @@ public Response createSensor(Sensor sensor) {
             .entity(newSensor)
             .build();
 }
+
+@PUT
+@Path("/{sensorId}")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
+public Response updateSensor(@PathParam("sensorId") int sensorId, Sensor updatedSensor) {
+    Sensor existingSensor = sensorStore.get(sensorId);
+    if (existingSensor == null) {
+        return Response.status(Response.Status.NOT_FOUND)
+                .entity("{\"error\": \"Sensor not found\"}")
+                .build();
+    }
+    if (updatedSensor.getName() != null) existingSensor.setName(updatedSensor.getName());
+    if (updatedSensor.getType() != null) existingSensor.setType(updatedSensor.getType());
+    if (updatedSensor.getStatus() != null) existingSensor.setStatus(updatedSensor.getStatus());
+    return Response.ok(existingSensor).build();
+}
