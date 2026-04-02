@@ -18,9 +18,9 @@ public class LoggingFilter implements ContainerRequestFilter, ContainerResponseF
         requestContext.setProperty("requestId", requestId);
         logger.info("[" + requestId + "] REQUEST: " + requestContext.getMethod() + " " + requestContext.getUriInfo().getRequestUri());
     }
-
     @Override
     public void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext) throws IOException {
+        responseContext.getHeaders().add("X-API-Version", "1.0.0");
         int requestId = (int) requestContext.getProperty("requestId");
         logger.info("[" + requestId + "] RESPONSE: " + responseContext.getStatus());
     }
