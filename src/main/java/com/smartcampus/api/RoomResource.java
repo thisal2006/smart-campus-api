@@ -113,3 +113,17 @@ public Response getAllRooms(@QueryParam("pretty") boolean pretty) {
     List<Room> rooms = new ArrayList<>(roomStore.values());
     return Response.ok(rooms).build();
 }
+
+@POST
+@Path("/batch")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
+public Response createMultipleRooms(List<Room> rooms) {
+    List<Room> createdRooms = new ArrayList<>();
+    for (Room room : rooms) {
+        Room newRoom = new Room(room.getName(), room.getBuilding(), room.getFloor());
+        roomStore.put(newRoom.getId(), newRoom);
+        createdRooms.add(newRoom);
+    }
+    return Response.status(Response.Status.CREATED).entity(createdRooms).build();
+}
