@@ -10,17 +10,18 @@ import java.util.logging.Logger;
 
 @Provider
 public class LoggingFilter implements ContainerRequestFilter, ContainerResponseFilter {
-    private static final Logger logger = Logger.getLogger(LoggingFilter.class.getName());
+    private static final AtomicInteger requestCounter = new AtomicInteger(1);
 
     @Override
-    public void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext) throws IOException {
-        int responseSize = responseContext.getEntity() != null ?
-                responseContext.getEntity().toString().length() : 0;
-        logger.info("RESPONSE: " + responseContext.getStatus() + " | Size: " + responseSize + " bytes");
+    public void filter(ContainerRequestContext requestContext) throws IOException {
+        int requestId = requestCounter.getAndIncrement();
+        requestContext.setProperty("requestId", requestId);
+        logger.info("[" + requestId + "] REQUEST: " + requestContext.getMethod() + " " + requestContext.getUriInfo().getRequestUri());
     }
 
     @Override
     public void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext) throws IOException {
-        logger.info("RESPONSE: " + responseContext.getStatus());
+        int requestId = (int) requestContext.getProperty("requestId");
+        logger.info("[" + requestId + "] RESPONSE: " + responseContext.getStatus());
     }
 }
