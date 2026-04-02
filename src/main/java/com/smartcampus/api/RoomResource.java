@@ -106,3 +106,10 @@ public Response updateRoom(@PathParam("roomId") int roomId, Room updatedRoom) {
     if (updatedRoom.getFloor() >= 0) existingRoom.setFloor(updatedRoom.getFloor());
     return Response.ok(existingRoom).build();
 }
+
+@GET
+@Produces(MediaType.APPLICATION_JSON)
+public Response getAllRooms(@QueryParam("pretty") boolean pretty) {
+    List<Room> rooms = new ArrayList<>(roomStore.values());
+    return Response.ok(rooms).build();
+}
