@@ -7,13 +7,16 @@ import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 @Path("/rooms")
 public class RoomResource {
     private static final ConcurrentHashMap<Integer, Room> roomStore = new ConcurrentHashMap<>();
 
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Get all rooms", description = "Returns list of all rooms in the campus")
+    @ApiResponse(responseCode = "200", description = "Successfully retrieved rooms")
     public Response getAllRooms() {
         List<Room> rooms = new ArrayList<>(roomStore.values());
         return Response.ok(rooms).build();
