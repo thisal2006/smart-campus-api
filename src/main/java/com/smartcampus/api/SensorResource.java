@@ -88,4 +88,15 @@ public class SensorResource {
     public static ConcurrentHashMap<Integer, Sensor> getSensorStore() {
         return sensorStore;
     }
+
+    public enum SensorType {
+        CO2, TEMP, OCCUPANCY, LIGHTING, HUMIDITY
+    }
+
+    private boolean isValidType(String type) {
+        for (SensorType st : SensorType.values()) {
+            if (st.name().equalsIgnoreCase(type)) return true;
+        }
+        return false;
+    }
 }
