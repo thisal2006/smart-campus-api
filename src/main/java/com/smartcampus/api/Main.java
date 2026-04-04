@@ -12,25 +12,17 @@ import java.util.Properties;
 public class Main {
 
     /**
-     * Loads server configuration from config.properties (if the file exists)
+     * Loads server configuration from config.properties (if present)
      */
     private static void loadConfig() {
         try (InputStream input = Main.class.getClassLoader()
                 .getResourceAsStream("config.properties")) {
-
-            if (input == null) {
-                System.out.println("ℹ️  config.properties not found → using default port 8080");
-                return;
-            }
-
             Properties prop = new Properties();
             prop.load(input);
             String port = prop.getProperty("server.port", "8080");
             System.setProperty("server.port", port);
-            System.out.println("✅ Loaded config: server.port = " + port);
-
         } catch (IOException e) {
-            System.err.println("⚠️ Config file not found or error reading it → using defaults");
+            System.err.println("Config file not found, using defaults");
         }
     }
 
@@ -38,7 +30,7 @@ public class Main {
         // Load configuration first
         loadConfig();
 
-        // Global uncaught exception handler (optional but nice)
+        // Global uncaught exception handler
         Thread.setDefaultUncaughtExceptionHandler((thread, throwable) -> {
             System.err.println("Uncaught exception in thread " + thread.getName());
             throwable.printStackTrace();
@@ -46,17 +38,24 @@ public class Main {
 
         String port = System.getProperty("server.port", "8080");
 
-        // Start the embedded Grizzly server with our JAX-RS application
+        // Create and start the embedded Grizzly server
         ResourceConfig config = new ResourceConfig(SmartCampusApplication.class);
-
         HttpServer server = GrizzlyHttpServerFactory.createHttpServer(
-                URI.create("http://localhost:" + port + "/")
+                URI.create("http://localhost:" + port + "/"),
+                config
         );
+
+        // Shutdown hook (exactly as you requested)
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            System.out.println("Shutting down server...");
+            server.shutdown();
+        }));
 
         System.out.println("🚀 Smart Campus API started successfully!");
         System.out.println("📍 URL: http://localhost:" + port + "/api/v1");
         System.out.println("Press Enter to stop the server...");
 
+        // Wait for user input (Ctrl+C also triggers shutdown hook)
         System.in.read();
         server.shutdownNow();
     }
