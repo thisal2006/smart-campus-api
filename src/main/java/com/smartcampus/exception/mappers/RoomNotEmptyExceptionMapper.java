@@ -20,4 +20,14 @@ public class RoomNotEmptyExceptionMapper implements ExceptionMapper<RoomNotEmpty
         error.put("status", 409);
         return Response.status(409).entity(error).build();
     }
+    @Override
+    public Response toResponse(RoomNotEmptyException ex) {
+        ErrorResponse error = new ErrorResponse(
+                "Room Cannot Be Deleted",
+                ex.getMessage(),
+                409
+        );
+        return Response.status(409).entity(error).build();
+    }
+
 }
