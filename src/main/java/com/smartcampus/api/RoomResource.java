@@ -87,4 +87,17 @@ public class RoomResource {
         roomStore.remove(roomId);
         return Response.noContent().build();
     }
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAllRooms(@QueryParam("page") int page, @QueryParam("size") int size) {
+        List<Room> rooms = new ArrayList<>(roomStore.values());
+        if (page > 0 && size > 0) {
+            int start = (page - 1) * size;
+            int end = Math.min(start + size, rooms.size());
+            if (start < rooms.size()) {
+                rooms = rooms.subList(start, end);
+            }
+        }
+        return Response.ok(rooms).build();
+    }
 }
