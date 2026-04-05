@@ -24,4 +24,17 @@ public class LoggingFilter implements ContainerRequestFilter, ContainerResponseF
         int requestId = (int) requestContext.getProperty("requestId");
         logger.info("[" + requestId + "] RESPONSE: " + responseContext.getStatus());
     }
+
+    @Override
+    public void filter(ContainerRequestContext requestContext) {
+        requestContext.setProperty("startTime", System.currentTimeMillis());
+        // existing code
+    }
+
+    @Override
+    public void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext) {
+        long startTime = (long) requestContext.getProperty("startTime");
+        long duration = System.currentTimeMillis() - startTime;
+        logger.info("Duration: " + duration + "ms");
+    }
 }
