@@ -100,4 +100,18 @@ public class RoomResource {
         }
         return Response.ok(rooms).build();
     }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAllRooms(@QueryParam("page") int page, @QueryParam("size") int size,
+                                @QueryParam("sort") String sort) {
+        List<Room> rooms = new ArrayList<>(roomStore.values());
+        if ("name".equals(sort)) {
+            rooms.sort(Comparator.comparing(Room::getName));
+        } else if ("id".equals(sort)) {
+            rooms.sort(Comparator.comparing(Room::getId));
+        }
+        // pagination logic
+        return Response.ok(rooms).build();
+    }
 }
