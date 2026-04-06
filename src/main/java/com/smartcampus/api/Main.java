@@ -58,5 +58,10 @@ public class Main {
         // Wait for user input (Ctrl+C also triggers shutdown hook)
         System.in.read();
         server.shutdownNow();
+
+        // Configure thread pool
+        final var serverConfig = new HttpServerConfig();
+        serverConfig.setMaxHttpHeaderSize(8192);
+        // Apply config
     }
 }
