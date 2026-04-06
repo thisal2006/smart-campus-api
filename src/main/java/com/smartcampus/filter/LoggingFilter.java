@@ -10,7 +10,13 @@ import java.util.logging.Logger;
 
 @Provider
 public class LoggingFilter implements ContainerRequestFilter, ContainerResponseFilter {
-    private static final AtomicInteger requestCounter = new AtomicInteger(1);
+    private String formatLogEntry(int requestId, String type, String data) {
+        if ("JSON".equals(System.getProperty("log.format"))) {
+            return String.format("{\"requestId\":%d,\"type\":\"%s\",\"data\":\"%s\"}",
+                    requestId, type, data);
+        }
+        return "[" + requestId + "] " + type + ": " + data;
+    }
 
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
