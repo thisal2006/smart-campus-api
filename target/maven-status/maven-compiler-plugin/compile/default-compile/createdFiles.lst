@@ -1,0 +1,5 @@
+main\java\com\smartcampus\model\Sensor.class
+main\java\com\smartcampus\model\Room.class
+main\java\com\smartcampus\api\ApplicationConfig.class
+com\smartcampus\api\DiscoveryResource.class
+main\java\com\smartcampus\model\Reading.class
