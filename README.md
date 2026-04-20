@@ -1,0 +1,47 @@
+# Smart Campus API
+
+JAX-RS RESTful API for university Smart Campus initiative.
+
+## API Base URL
+`http://localhost:8080/api/v1`
+
+## Endpoints
+
+### Discovery
+- `GET /` - API metadata and HATEOAS links
+
+### Rooms
+- `GET /rooms` - List all rooms
+- `POST /rooms` - Create new room
+- `GET /rooms/{id}` - Get room by ID
+- `DELETE /rooms/{id}` - Delete room (fails if has sensors)
+
+### Sensors
+- `GET /sensors` - List all sensors (filter by ?type=)
+- `POST /sensors` - Register new sensor
+- `GET /sensors/{id}` - Get sensor by ID
+- `GET /sensors/{id}/readings` - Get reading history
+- `POST /sensors/{id}/readings` - Add new reading
+
+## Sample curl commands
+
+# Discovery
+curl -X GET http://localhost:8080/api/v1/
+
+# Create room
+curl -X POST http://localhost:8080/api/v1/rooms -H "Content-Type: application/json" -d '{"name":"Lab 101","building":"Engineering","floor":1}'
+
+# Get all rooms
+curl -X GET http://localhost:8080/api/v1/rooms
+
+# Create sensor
+curl -X POST http://localhost:8080/api/v1/sensors -H "Content-Type: application/json" -d '{"name":"CO2 Monitor","type":"CO2","roomId":1}'
+
+# Filter sensors by type
+curl -X GET "http://localhost:8080/api/v1/sensors?type=CO2"
+
+# Add reading to sensor
+curl -X POST http://localhost:8080/api/v1/sensors/1/readings -H "Content-Type: application/json" -d '{"value":"420","unit":"ppm"}'
+
+# Get reading history
+curl -X GET http://localhost:8080/api/v1/sensors/1/readings
