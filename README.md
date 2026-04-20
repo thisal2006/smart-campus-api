@@ -66,5 +66,12 @@ If a client sends data in a different format (e.g., text/plain or application/xm
 ### Part 3.2 - @QueryParam vs PathParam
 Query parameters are superior for filtering because they are optional, order-independent, and can be combined easily. Path parameters (e.g., /sensors/type/CO2) suggest a hierarchical resource structure. Using query strings for filters follows REST conventions, supports multiple filters, and doesn't clutter the URL path with optional parameters.
 
+### Part 4.1 - Sub-Resource Locator Pattern
+The sub-resource locator pattern delegates nested resource logic to dedicated classes, reducing complexity in large APIs. Instead of one massive controller handling all nested paths, separate classes manage specific sub-resources. This improves maintainability, separation of concerns, and code reusability.
+
+### Part 4.2 - Side Effect Implementation
+When a new reading is POSTed to /sensors/{id}/readings, the parent Sensor's currentValue field is updated automatically to maintain data consistency. This ensures the sensor always reflects its latest reading without requiring a separate update operation.
+
+
 
 
