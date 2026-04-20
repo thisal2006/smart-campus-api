@@ -45,3 +45,11 @@ curl -X POST http://localhost:8080/api/v1/sensors/1/readings -H "Content-Type: a
 
 # Get reading history
 curl -X GET http://localhost:8080/api/v1/sensors/1/readings
+
+## Report Answers
+
+### Part 1.1 - JAX-RS Lifecycle
+The default lifecycle of a JAX-RS resource class is **request-scoped**. A new instance is instantiated for every incoming request. This impacts in-memory data structures because each request gets a fresh instance, so static or singleton-scoped maps/lists must be used with proper synchronization (ConcurrentHashMap) to prevent race conditions and data loss.
+
+### Part 1.2 - HATEOAS Benefits
+Hypermedia (HATEOAS) allows clients to navigate the API dynamically through links provided in responses. This benefits client developers by reducing hardcoded URL dependencies, making the API self-documenting and more resilient to URL structure changes.
