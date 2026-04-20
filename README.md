@@ -60,3 +60,11 @@ Returning only IDs reduces network bandwidth significantly when dealing with lar
 ### Part 2.2 - DELETE Idempotency
 DELETE is idempotent in my implementation. When a client sends the same DELETE request multiple times, the first request removes the resource and returns 204 No Content. Subsequent requests return 404 Not Found (or throw NotFoundException). The server state after multiple identical DELETE calls is the same - the resource no longer exists.
 
+### Part 3.1 - @Consumes Mismatch
+If a client sends data in a different format (e.g., text/plain or application/xml) to a method annotated with @Consumes(MediaType.APPLICATION_JSON), JAX-RS returns HTTP 415 Unsupported Media Type. The framework cannot deserialize the payload into the expected Java object, so it rejects the request before reaching the resource method.
+
+### Part 3.2 - @QueryParam vs PathParam
+Query parameters are superior for filtering because they are optional, order-independent, and can be combined easily. Path parameters (e.g., /sensors/type/CO2) suggest a hierarchical resource structure. Using query strings for filters follows REST conventions, supports multiple filters, and doesn't clutter the URL path with optional parameters.
+
+
+
