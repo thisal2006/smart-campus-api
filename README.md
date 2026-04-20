@@ -53,3 +53,10 @@ The default lifecycle of a JAX-RS resource class is **request-scoped**. A new in
 
 ### Part 1.2 - HATEOAS Benefits
 Hypermedia (HATEOAS) allows clients to navigate the API dynamically through links provided in responses. This benefits client developers by reducing hardcoded URL dependencies, making the API self-documenting and more resilient to URL structure changes.
+
+### Part 2.1 - ID-only vs Full Objects
+Returning only IDs reduces network bandwidth significantly when dealing with large collections, but requires clients to make additional requests for details. Returning full objects increases bandwidth usage but reduces client-side processing and round trips. The choice depends on client needs and typical use cases.
+
+### Part 2.2 - DELETE Idempotency
+DELETE is idempotent in my implementation. When a client sends the same DELETE request multiple times, the first request removes the resource and returns 204 No Content. Subsequent requests return 404 Not Found (or throw NotFoundException). The server state after multiple identical DELETE calls is the same - the resource no longer exists.
+
