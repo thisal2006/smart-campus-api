@@ -77,6 +77,8 @@ HTTP 422 Unprocessable Entity is more semantically accurate than 404 when a JSON
 
 ### Part 5.2 - Stack Trace Security Risks
 Exposing internal Java stack traces reveals sensitive information to attackers: internal package structures, library versions, file paths, line numbers, and business logic flow. This information helps attackers craft targeted exploits, understand system architecture, and identify vulnerable code paths.
+### Part 5.3 - JAX-RS Filters for Logging
+Using JAX-RS filters for cross-cutting concerns like logging is advantageous because it centralizes logic in one place rather than scattering Logger.info() calls across every resource method. Filters provide automatic invocation for ALL requests/responses, ensure consistency, reduce code duplication, and separate infrastructure concerns from business logic.
 
 
 
