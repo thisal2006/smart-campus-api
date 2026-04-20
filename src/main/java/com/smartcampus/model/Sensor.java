@@ -13,13 +13,13 @@ public class Sensor {
     private String status;
     private String currentValue;
     private List<Reading> readings;
-
+    
     public Sensor() {
         this.readings = new ArrayList<>();
         this.status = "ACTIVE";
         this.currentValue = "0";
     }
-
+    
     public Sensor(String name, String type, int roomId) {
         this.id = idGenerator.getAndIncrement();
         this.name = name;
@@ -29,20 +29,32 @@ public class Sensor {
         this.currentValue = "0";
         this.readings = new ArrayList<>();
     }
-
+    
+    // Getters
     public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
     public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
     public String getType() { return type; }
-    public void setType(String type) { this.type = type; }
     public int getRoomId() { return roomId; }
-    public void setRoomId(int roomId) { this.roomId = roomId; }
     public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
     public String getCurrentValue() { return currentValue; }
-    public void setCurrentValue(String currentValue) { this.currentValue = currentValue; }
     public List<Reading> getReadings() { return readings; }
+    
+    // Setters
+    public void setId(int id) { this.id = id; }
+    public void setName(String name) { this.name = name; }
+    public void setType(String type) { this.type = type; }
+    public void setRoomId(int roomId) { this.roomId = roomId; }
+    public void setStatus(String status) { this.status = status; }
+    public void setCurrentValue(String currentValue) { this.currentValue = currentValue; }
     public void setReadings(List<Reading> readings) { this.readings = readings; }
+    
+    // Helper methods
+    public void addReading(Reading reading) {
+        this.readings.add(reading);
+        this.currentValue = reading.getValue();
+    }
     public boolean isAvailable() { return !"MAINTENANCE".equalsIgnoreCase(this.status); }
 }
+
+
+

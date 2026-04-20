@@ -2,7 +2,7 @@ package com.smartcampus.api;
 
 import com.smartcampus.model.Room;
 import org.junit.jupiter.api.*;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class RoomResourceTest {
