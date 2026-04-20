@@ -72,6 +72,14 @@ The sub-resource locator pattern delegates nested resource logic to dedicated cl
 ### Part 4.2 - Side Effect Implementation
 When a new reading is POSTed to /sensors/{id}/readings, the parent Sensor's currentValue field is updated automatically to maintain data consistency. This ensures the sensor always reflects its latest reading without requiring a separate update operation.
 
+### Part 5.1 - HTTP 422 vs 404
+HTTP 422 Unprocessable Entity is more semantically accurate than 404 when a JSON payload references a non-existent resource (like a missing roomId). 404 indicates the endpoint itself doesn't exist, while 422 indicates the request syntax is correct but semantic validation failed due to invalid referenced data.
+
+### Part 5.2 - Stack Trace Security Risks
+Exposing internal Java stack traces reveals sensitive information to attackers: internal package structures, library versions, file paths, line numbers, and business logic flow. This information helps attackers craft targeted exploits, understand system architecture, and identify vulnerable code paths.
+
+
+
 
 
 
