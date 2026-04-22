@@ -10,7 +10,7 @@ import java.util.Map;
 
 @Path("/")
 public class DiscoveryResource {
-    
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getApiInfo() {
@@ -19,15 +19,12 @@ public class DiscoveryResource {
         apiInfo.put("apiName", "Smart Campus API");
         apiInfo.put("adminContact", "facilities@smartcampus.edu");
         apiInfo.put("description", "RESTful API for managing campus rooms and sensors");
-        
+
         Map<String, String> resources = new HashMap<>();
         resources.put("rooms", "/api/v1/rooms");
         resources.put("sensors", "/api/v1/sensors");
         apiInfo.put("resources", resources);
-        
+
         return Response.ok(apiInfo).build();
     }
 }
-
-
-

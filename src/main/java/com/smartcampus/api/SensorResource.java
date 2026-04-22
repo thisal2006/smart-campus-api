@@ -20,13 +20,12 @@ public class SensorResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response createSensor(Sensor sensor) {
         if (!RoomResource.getRoomStore().containsKey(sensor.getRoomId())) {
-            throw new LinkedResourceNotFoundException("The specified roomId does not exist: " + sensor.getRoomId());
+            throw new LinkedResourceNotFoundException("Room not found: " + sensor.getRoomId());
         }
 
         Sensor newSensor = new Sensor(sensor.getName(), sensor.getType(), sensor.getRoomId());
         sensorStore.put(newSensor.getId(), newSensor);
 
-        // Link sensor to room
         Room room = RoomResource.getRoomStore().get(sensor.getRoomId());
         if (room != null) {
             room.addSensorId(newSensor.getId());
@@ -56,7 +55,7 @@ public class SensorResource {
         Sensor sensor = sensorStore.get(sensorId);
         if (sensor == null) {
             return Response.status(Response.Status.NOT_FOUND)
-                    .entity("{\"error\": \"Sensor not found\"}")
+                    .entity(new com.smartcampus.model.ErrorResponse("Not Found", "Sensor not found", 404))
                     .build();
         }
         return Response.ok(sensor).build();
